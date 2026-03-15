@@ -956,6 +956,35 @@ final class Model
     }
 
     /**
+     * Return all cases that support a given capability tag.
+     *
+     * Available tags: `chat`, `vision`, `image`, `embedding`, `speech`,
+     * `transcription`, `reasoning`, `coding`, `fine-tuning`, `moderation`.
+     *
+     * @param string $capability Capability tag.
+     *
+     * @return array[]
+     *
+     * @example
+     * ```php
+     * $visionModels = Model::forCapability('vision');
+     * // [Model::GPT_4_1, Model::GPT_4O, Model::LLAVA, Model::LLAMA_3_2_VISION, ...]
+     *
+     * $embeddingModels = Model::forCapability('embedding');
+     * // [Model::TEXT_EMBEDDING_3_SMALL, Model::NOMIC_EMBED_TEXT, ...]
+     * ```
+     */
+    public static function forCapability(string $capability): array
+    {
+        $modelValues = self::CAPABILITY_MAP[$capability] ?? [];
+
+        return array_values(array_filter(
+            self::all(),
+            fn(self $value): bool => in_array($value, $modelValues, true)
+        ));
+    }
+
+    /**
      * Return the capability tags for a given model.
      *
      * Possible tags: `chat`, `vision`, `image`, `embedding`, `speech`,

@@ -1,0 +1,23 @@
+{
+    "name": "luminovang/php-ai-models",
+    "description": "PHP Google Javascript Website Translator Plugin",
+    "keywords": ["ai", "models", "php ai", "php", "ai model"],
+    "license": "MIT",
+    "type": "library",
+    "homepage": "https://github.com/luminovang/php-ai-models",
+    "authors": [
+        {
+            "name": "Ujah Chigozie",
+            "email": "ujahchigozie@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Luminova\\AI\\": "src/"
+        }
+    },
+    "prefer-stable": true
+}

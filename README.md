@@ -1,5 +1,7 @@
 # PHP AI Model Helper Class
 
+> **Type:** `const Model: string` *(final-class)* 
+
 A static catalogue of AI model identifiers. Constants eliminate typos, enable IDE autocompletion, and create a single source across codebase.
 
 ---

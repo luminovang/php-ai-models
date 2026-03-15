@@ -17,29 +17,7 @@ use \ReflectionClass;
  *
  * Every constant maps a readable PHP name to the exact API model string that
  * each client expects in its `model` field. Use the constants in place of
- * raw strings so that typos fail at parse-time and IDEs can autocomplete:
- *
- * ```php
- * use Luminova\AI\Model;
- * 
- * use Luminova\AI\Model;
- * use Luminova\AI\AI;
- *
- * $reply = AI::Openai($key)->message('Hello!', ['model' => Model::GPT_4_1_MINI]);
- * $reply = AI::Anthropic($key)->message('Hello!', ['model' => Model::CLAUDE_SONNET_4_6]);
- * $reply = AI::Ollama()->message('Hello!', ['model' => Model::LLAMA_3_2]);
- * ```
- *
- * **Constant naming convention**
- * - Dots and hyphens in model IDs become underscores: `gpt-4.1-mini` → `GPT_4_1_MINI`.
- * - Tag suffixes (e.g. `:8b`) are appended with an underscore: `llama3.2:8b` → `LLAMA_3_2_8B`.
- * - Versioned snapshot suffixes are preserved: `CLAUDE_HAIKU_4_5_SNAP` points to
- *   the full dated snapshot string.
- *
- * **Sections**
- * - [OPENAI]  GPT-5, GPT-4.1, GPT-4o, Reasoning (o-series), Image, Audio, Embeddings
- * - [CLAUDE]  Opus, Sonnet, Haiku — current + recent generations
- * - [OLLAMA]  General, Reasoning, Coding, Vision, Embedding models
+ * raw strings so that typos fail at parse-time and IDEs can autocomplete
  *
  * @see https://platform.openai.com/docs/models
  * @see https://docs.anthropic.com/en/docs/about-claude/models
@@ -62,7 +40,7 @@ final class Model
     public const GPT_5_MINI = 'gpt-5-mini';
 
     /**
-     * GPT-5 Nano — smallest GPT-5 variant; optimised for latency and cost.
+     * GPT-5 Nano — smallest GPT-5 variant; optimized for latency and cost.
      */
     public const GPT_5_NANO = 'gpt-5-nano';
 
@@ -110,7 +88,7 @@ final class Model
     public const GPT_4O_MINI_AUDIO = 'gpt-4o-mini-audio-preview';
 
     /**
-     * GPT-4o Realtime — optimised for low-latency real-time speech and text.
+     * GPT-4o Realtime — optimized for low-latency real-time speech and text.
      */
     public const GPT_4O_REALTIME = 'gpt-4o-realtime-preview';
 
@@ -142,7 +120,7 @@ final class Model
 
     /**
      * o3 Deep Research — multi-step web and document research variant of o3.
-     * Breaks queries into sub-questions, searches sources, and synthesises findings.
+     * Breaks queries into sub-questions, searches sources, and synthesizes findings.
      */
     public const O3_DEEP_RESEARCH = 'o3-deep-research';
 
@@ -345,7 +323,7 @@ final class Model
 
     /**
      * Claude Haiku 3.5 — lightweight, fast Claude 3.5 variant.
-     * Ideal for low-cost summarisation and rapid completions.
+     * Ideal for low-cost summarization and rapid completions.
      */
     public const CLAUDE_HAIKU_3_5 = 'claude-3-5-haiku-20241022';
 
@@ -375,7 +353,7 @@ final class Model
 
     /**
      * Llama 3.2 — compact Meta model with 1 B and 3 B variants.
-     * Optimised for dialogue and multilingual use cases on low-spec hardware.
+     * Optimized for dialogue and multilingual use cases on low-spec hardware.
      * Ollama pull name: `llama3.2`
      */
     public const LLAMA_3_2 = 'llama3.2';
@@ -963,7 +941,7 @@ final class Model
      *
      * @param string $capability Capability tag.
      *
-     * @return array[]
+     * @return string[]
      *
      * @example
      * ```php

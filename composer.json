@@ -55,6 +55,9 @@
             "Luminova\\AI\\": "src/"
         }
     },
+    "suggest": {
+        "luminovang/php-ai-models-enum": "Use for PHP ≥ 8.1 when native backed enums are needed."
+    },
     "scripts": {
         "test": "vendor/bin/phpunit --testdox",
         "test:coverage": "vendor/bin/phpunit --coverage-html build/coverage",

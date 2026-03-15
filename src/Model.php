@@ -13,10 +13,10 @@ namespace Luminova\AI;
 use \ReflectionClass;
 
 /**
- * Catalogue of AI model identifiers for all supported Luminova providers.
+ * Catalogue of AI model identifiers for all supported Luminova clients.
  *
  * Every constant maps a readable PHP name to the exact API model string that
- * each provider expects in its `model` field. Use the constants in place of
+ * each client expects in its `model` field. Use the constants in place of
  * raw strings so that typos fail at parse-time and IDEs can autocomplete:
  *
  * ```php
@@ -76,7 +76,7 @@ final class Model
 
     /**
      * GPT-4.1 Mini — efficient mid-tier model, also supports fine-tuning.
-     * Default chat model for the Luminova OpenAI provider.
+     * Default chat model for the Luminova OpenAI client.
      */
     public const GPT_4_1_MINI = 'gpt-4.1-mini';
 
@@ -186,13 +186,13 @@ final class Model
 
     /**
      * GPT-4o Mini TTS — expressive, controllable speech synthesis.
-     * Default TTS model in the Luminova OpenAI provider.
+     * Default TTS model in the Luminova OpenAI client.
      * Voices: `alloy`, `echo`, `fable`, `onyx`, `nova`, `shimmer`.
      */
     public const GPT_4O_MINI_TTS = 'gpt-4o-mini-tts';
 
     /**
-     * TTS-1 — OpenAI's first-generation TTS model; optimised for real-time use.
+     * TTS-1 — OpenAI's first-generation TTS model; optimized for real-time use.
      * Six preset voices. Lower latency than TTS-1 HD.
      */
     public const TTS_1 = 'tts-1';
@@ -217,7 +217,7 @@ final class Model
     /**
      * Whisper-1 — general-purpose speech recognition model.
      * Near-human accuracy across 99+ languages. Available via the Audio API.
-     * Default transcription model in the Luminova OpenAI provider.
+     * Default transcription model in the Luminova OpenAI client.
      */
     public const WHISPER_1 = 'whisper-1';
 
@@ -230,7 +230,7 @@ final class Model
 
     /**
      * Text Embedding 3 Small — efficient third-generation embedding model.
-     * Default embedding model in the Luminova OpenAI provider.
+     * Default embedding model in the Luminova OpenAI client.
      * 1536-dimensional output; outperforms text-embedding-ada-002.
      */
     public const TEXT_EMBEDDING_3_SMALL = 'text-embedding-3-small';
@@ -265,7 +265,7 @@ final class Model
      * Claude Sonnet 4.6 — latest Sonnet model (Feb 2026).
      * Preferred over previous Opus in coding evaluations by 59% of developers.
      * Same price as Sonnet 4.5. Supports 1 M token context with beta header.
-     * Default Claude model in the Luminova Anthropic provider.
+     * Default Claude model in the Luminova Anthropic client.
      */
     public const CLAUDE_SONNET_4_6 = 'claude-sonnet-4-6';
 
@@ -616,7 +616,7 @@ final class Model
     /**
      * LLaVA — original multimodal vision-language model for Ollama.
      * Canonical first choice for local image understanding.
-     * Default vision model in the Luminova Ollama provider (`vision()`).
+     * Default vision model in the Luminova Ollama client (`vision()`).
      * Ollama pull name: `llava`
      */
     public const LLAVA = 'llava';
@@ -655,7 +655,7 @@ final class Model
     /**
      * Nomic Embed Text — high-performing open embedding model.
      * Supports 8 K token context; strong MTEB benchmark scores.
-     * Default embedding model in the Luminova Ollama provider.
+     * Default embedding model in the Luminova Ollama client.
      * Ollama pull name: `nomic-embed-text`
      */
     public const NOMIC_EMBED_TEXT = 'nomic-embed-text';
@@ -675,13 +675,13 @@ final class Model
     public const ALL_MINILM = 'all-minilm';
 
     /**
-     * Maps every model constant value to its provider.
+     * Maps every model constant value to its client.
      * Keys are the exact API model string (constant value).
-     * Values are the provider short-name as registered in AI::$providers.
+     * Values are the client short-name as registered in AI::$clients.
      *
-     * @var array<string,string>
+     * @var array<string,string> CLIENT_MAP
      */
-    private const PROVIDER_MAP = [
+    private const CLIENT_MAP = [
         // — OpenAI —
         'gpt-5'                       => 'openai',
         'gpt-5-mini'                  => 'openai',
@@ -883,9 +883,9 @@ final class Model
     private function __construct() {}
 
     /**
-     * Return the provider short-name for a given model identifier.
+     * Return the client short-name for a given model identifier.
      *
-     * The returned string matches the key used in `AI::$providers`:
+     * The returned string matches the key used in `AI::$clients`:
      * `'openai'`, `'anthropic'`, or `'ollama'`.
      * Returns `null` when the model is not catalogued.
      *
@@ -897,22 +897,22 @@ final class Model
      * ```php
      * use Luminova\AI\Model;
      * 
-     * Model::provider(Model::GPT_4_1_MINI);   // 'openai'
-     * Model::provider(Model::CLAUDE_SONNET_4_6); // 'anthropic'
-     * Model::provider(Model::LLAVA);           // 'ollama'
-     * Model::provider('custom-model');         // null
+     * Model::client(Model::GPT_4_1_MINI);   // 'openai'
+     * Model::client(Model::CLAUDE_SONNET_4_6); // 'anthropic'
+     * Model::client(Model::LLAVA);           // 'ollama'
+     * Model::client('custom-model');         // null
      * ```
      */
-    public static function provider(string $model): ?string
+    public static function client(string $model): ?string
     {
-        return self::PROVIDER_MAP[$model] ?? null;
+        return self::CLIENT_MAP[$model] ?? null;
     }
 
     /**
      * Return all model constants as a `['CONST_NAME' => 'model-id']` map.
      *
      * Only public constants are included; private constants (such as
-     * `PROVIDER_MAP` and `CAPABILITY_MAP`) are excluded automatically.
+     * `CLIENT_MAP` and `CAPABILITY_MAP`) are excluded automatically.
      *
      * @return array<string,string>
      *
@@ -930,28 +930,28 @@ final class Model
     }
 
     /**
-     * Return all model identifiers available for a specific provider.
+     * Return all model identifiers available for a specific client.
      *
-     * @param string $provider Provider short-name: `'openai'`, `'anthropic'`, or `'ollama'`.
+     * @param string $client Provider short-name: `'openai'`, `'anthropic'`, or `'ollama'`.
      *
-     * @return array<string,string> `['CONST_NAME' => 'model-id']` map filtered by provider.
+     * @return array<string,string> `['CONST_NAME' => 'model-id']` map filtered by client.
      *
      * @example
      * ```php
      * use Luminova\AI\Model;
      * 
-     * $openaiModels    = Model::forProvider('openai');
-     * $anthropicModels = Model::forProvider('anthropic');
-     * $ollamaModels    = Model::forProvider('ollama');
+     * $openaiModels    = Model::forClient('openai');
+     * $anthropicModels = Model::forClient('anthropic');
+     * $ollamaModels    = Model::forClient('ollama');
      * ```
      */
-    public static function forProvider(string $provider): array
+    public static function forClient(string $client): array
     {
-        $provider = strtolower($provider);
+        $client = strtolower($client);
 
         return array_filter(
             self::all(),
-            fn(string $modelId): bool => (self::PROVIDER_MAP[$modelId] ?? null) === $provider
+            fn(string $modelId): bool => (self::CLIENT_MAP[$modelId] ?? null) === $client
         );
     }
 
@@ -1059,7 +1059,7 @@ final class Model
      * Check whether a model is listed in this catalogue.
      *
      * Useful for validating user-supplied model strings before sending
-     * them to a provider API.
+     * them to a client API.
      *
      * @param string $model Exact API model string.
      *
@@ -1075,6 +1075,6 @@ final class Model
      */
     public static function exists(string $model): bool
     {
-        return isset(self::PROVIDER_MAP[$model]);
+        return isset(self::CLIENT_MAP[$model]);
     }
 }
